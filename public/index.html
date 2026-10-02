@@ -1,0 +1,1041 @@
+<!doctype html>
+<html lang="en" data-theme="dark" data-sidebar="left" data-motion="on">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0c0e13">
+<title>Bebe Pro</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230a84ff'/%3E%3Ctext x='32' y='44' font-family='Helvetica,Arial,sans-serif' font-size='34' font-weight='700' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue","Segoe UI",Roboto,sans-serif;
+  --accent:#0a84ff;--accent-soft:rgba(10,132,255,.25);
+  --danger:#ff453a;--success:#30d158;
+  --text:#fff;--text-2:rgba(255,255,255,.72);--text-3:rgba(255,255,255,.45);
+  --glass:rgba(255,255,255,.09);--glass-strong:rgba(255,255,255,.16);--glass-hover:rgba(255,255,255,.2);
+  --glass-border:rgba(255,255,255,.22);--glass-highlight:rgba(255,255,255,.38);
+  --separator:rgba(255,255,255,.14);--field:rgba(255,255,255,.12);
+  --shadow:0 18px 48px rgba(0,0,0,.22),0 2px 6px rgba(0,0,0,.12);
+  --tint:rgba(8,10,20,.28);
+  --text-shadow:0 1px 12px rgba(0,0,0,.25);
+  --blur:blur(26px) saturate(180%);
+  --r-xl:24px;--r-lg:18px;--r-md:12px;--r-sm:9px;
+  --ease:cubic-bezier(.32,.72,0,1);
+}
+[data-theme="light"]{
+  --text:rgba(0,0,0,.86);--text-2:rgba(30,30,40,.65);--text-3:rgba(30,30,40,.4);
+  --glass:rgba(255,255,255,.26);--glass-strong:rgba(255,255,255,.4);--glass-hover:rgba(255,255,255,.5);
+  --glass-border:rgba(255,255,255,.6);--glass-highlight:rgba(255,255,255,.9);
+  --separator:rgba(0,0,0,.08);--field:rgba(255,255,255,.35);
+  --shadow:0 18px 48px rgba(20,30,70,.14),0 2px 6px rgba(20,30,70,.08);
+  --tint:rgba(255,255,255,.14);
+  --text-shadow:0 1px 12px rgba(255,255,255,.35);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:var(--font);color:var(--text);background:var(--wall-base);-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.45;letter-spacing:-.01em;overflow:hidden}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+/* Wallpaper (image) */
+.wallpaper{position:fixed;inset:-3%;z-index:0;pointer-events:none;background:#3a3f6a center/cover no-repeat;animation:kb 70s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.07) translate(-1%,-1%)}}
+.wall-tint{position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--tint)}
+[data-motion="off"] .wallpaper{animation:none}
+@media (prefers-reduced-motion:reduce){.wallpaper{animation:none}}
+
+/* Glass material */
+.glass,.sidebar,.header,.panel,.browser,.chat-message,.chat-form,.proxy-card{
+  background:var(--glass);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);
+  border:1px solid var(--glass-border);box-shadow:inset 0 1px 0 var(--glass-highlight),var(--shadow)}
+
+/* Layout */
+.app{position:relative;z-index:1;display:flex;gap:14px;height:100%;padding:max(14px,env(safe-area-inset-top)) 14px max(14px,env(safe-area-inset-bottom))}
+[data-sidebar="right"] .app{flex-direction:row-reverse}
+
+/* Sidebar */
+.sidebar{width:232px;flex-shrink:0;border-radius:var(--r-xl);display:flex;flex-direction:column;padding:16px 10px 10px;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:11px;padding:4px 8px 18px;background:none;border:0;text-align:left;width:100%}
+.logo-mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:16px;background:var(--accent);box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.brand-name{font-weight:600;font-size:15.5px;letter-spacing:-.02em}
+.brand-sub{font-size:12px;color:var(--text-2)}
+.nav{display:flex;flex-direction:column;gap:2px;flex:1}
+.nav-btn{display:flex;align-items:center;gap:11px;padding:8px 10px;border:0;background:transparent;border-radius:var(--r-sm);font-size:14.5px;font-weight:500;text-align:left;transition:background .2s}
+.nav-btn svg{color:var(--accent)}
+.nav-btn:hover{background:var(--glass-hover)}
+.nav-btn.active{background:var(--accent);color:#fff}
+.nav-btn.active svg{color:#fff}
+.status{display:flex;align-items:center;gap:8px;padding:10px;font-size:12.5px;color:var(--text-2)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--text-3)}
+.dot.on{background:var(--success);box-shadow:0 0 8px var(--success)}
+
+/* Main */
+.main{flex:1;min-width:0;display:flex;flex-direction:column;gap:14px}
+.header{display:flex;align-items:center;justify-content:space-between;gap:16px;height:54px;padding:0 10px 0 16px;border-radius:16px;flex-shrink:0}
+.header-left{display:flex;align-items:center;gap:10px;min-width:0}
+.title{font-weight:600;font-size:16.5px;letter-spacing:-.02em}
+.icon-btn{width:34px;height:34px;border-radius:50%;border:0;background:transparent;color:var(--text-2);display:grid;place-items:center;transition:background .2s,color .2s}
+.icon-btn:hover{background:var(--glass-hover);color:var(--text)}
+.icon-btn:disabled{opacity:.35;pointer-events:none}
+.menu-btn{display:none;background:var(--field);color:var(--text)}
+.search-wrap{position:relative}
+.search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--text-2);pointer-events:none}
+.search{width:250px;height:34px;padding:0 50px 0 33px;border:0;border-radius:10px;background:var(--field);outline:none;transition:width .35s var(--ease),background .2s}
+.search:focus{width:310px;background:var(--glass-strong);box-shadow:0 0 0 3px var(--accent-soft)}
+.search::placeholder{color:var(--text-2)}
+.kbd{position:absolute;right:9px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text-3);border:1px solid var(--separator);border-radius:5px;padding:0 5px}
+
+/* Views */
+.view{display:none;flex:1;min-height:0;overflow-y:auto;padding:4px 4px 28px}
+.view.active{display:flex;flex-direction:column;animation:vin .4s var(--ease)}
+@keyframes vin{from{opacity:0;transform:scale(.988)}}
+.view-head{padding:16px 8px 20px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.view-head{text-shadow:var(--text-shadow)}
+.view-head h1{font-size:32px;font-weight:700;letter-spacing:-.035em;line-height:1.1}
+.view-head p{color:var(--text-2);margin-top:5px}
+.wrap{max-width:820px;width:100%;margin:0 auto}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 18px;border-radius:999px;border:1px solid transparent;font-weight:600;font-size:14px;transition:transform .25s var(--ease),background .2s}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 6px 18px var(--accent-soft)}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-glass{background:var(--glass-strong);border-color:var(--glass-border);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);box-shadow:inset 0 1px 0 var(--glass-highlight)}
+.btn-glass:hover{background:var(--glass-hover)}
+
+/* Home */
+.hero{text-align:center;padding:6vh 16px 30px;text-shadow:var(--text-shadow)}
+.clock{font-size:clamp(68px,11vw,120px);font-weight:600;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums;color:var(--text);text-shadow:var(--text-shadow)}
+.date-line{color:var(--text-2);font-size:16px;font-weight:500;margin-top:8px}
+.hero h2{font-size:21px;font-weight:600;letter-spacing:-.02em;margin-top:26px}
+.hero p{color:var(--text-2);margin-top:4px}
+.hero-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.panel{border-radius:var(--r-lg);padding:18px}
+.panel h3{font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:14px}
+
+/* Game tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:24px 12px}
+.tile{display:flex;flex-direction:column;align-items:center;gap:7px;border:0;background:none;text-align:center;padding:4px}
+.tile-icon{width:72px;height:72px;border-radius:20px;display:grid;place-items:center;background:var(--glass-strong);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);border:1px solid var(--glass-border);box-shadow:inset 0 1px 0 var(--glass-highlight),var(--shadow);transition:transform .35s var(--ease)}
+.tile-icon svg{width:46px;height:46px}
+.tile-name{text-shadow:var(--text-shadow)}
+.tile:hover .tile-icon{transform:scale(1.06)}
+.tile:active .tile-icon{transform:scale(.93)}
+.tile-name{font-size:13px;font-weight:500;line-height:1.2}
+.tile-meta{font-size:11.5px;color:var(--text-2);margin-top:-4px}
+
+/* Segmented + fields */
+.toolbar{display:flex;gap:10px;align-items:center;padding:0 8px 24px;flex-wrap:wrap}
+.segmented{display:inline-flex;padding:3px;border-radius:10px;background:var(--field)}
+.segmented button{border:0;background:transparent;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:500;color:var(--text-2);transition:background .2s,color .2s}
+.segmented button.on{background:var(--glass-strong);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.18),inset 0 1px 0 var(--glass-highlight)}
+.field{height:34px;padding:0 12px;border:0;border-radius:10px;background:var(--field);outline:none;min-width:200px;flex:1;max-width:320px}
+.field:focus{box-shadow:0 0 0 3px var(--accent-soft)}
+.field::placeholder{color:var(--text-2)}
+.games-grid{padding:0 8px}
+.empty{color:var(--text-2);text-align:center;padding:40px 0}
+
+/* Browser */
+.browser{flex:1;min-height:0;display:flex;flex-direction:column;border-radius:var(--r-xl);overflow:hidden}
+.tabs-bar{display:flex;align-items:center;gap:6px;padding:10px 10px 0}
+.tabs-list{display:flex;gap:6px;flex:1;overflow-x:auto;scrollbar-width:none}
+.tabs-list::-webkit-scrollbar{display:none}
+.tab{display:flex;align-items:center;gap:6px;height:32px;padding:0 6px 0 14px;max-width:210px;flex-shrink:0;border-radius:9px;font-size:13px;color:var(--text-2);border:0;background:transparent;transition:background .2s}
+.tab span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tab:hover{background:var(--glass-hover)}
+.tab.active{background:var(--glass-strong);color:var(--text);box-shadow:inset 0 1px 0 var(--glass-highlight)}
+.tab-close{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;opacity:0;transition:opacity .2s}
+.tab-close svg{width:11px;height:11px}
+.tab:hover .tab-close,.tab.active .tab-close{opacity:1}
+.tab-close:hover{background:var(--field)}
+.browser-bar{display:flex;align-items:center;gap:2px;padding:10px}
+.address{flex:1;min-width:100px;height:36px;margin:0 6px;padding:0 14px;border:0;border-radius:10px;background:var(--field);text-align:center;font-size:14px;outline:none}
+.address:focus{text-align:left;background:var(--glass-strong);box-shadow:0 0 0 3px var(--accent-soft)}
+.address::placeholder{color:var(--text-2)}
+.select-pill{height:32px;padding:0 28px 0 12px;border-radius:999px;border:1px solid var(--glass-border);background:var(--glass);font-size:13px;outline:none;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--text-2) 50%),linear-gradient(135deg,var(--text-2) 50%,transparent 50%);background-position:calc(100% - 15px) 50%,calc(100% - 10px) 50%;background-size:5px 5px;background-repeat:no-repeat}
+select option{background:#2c2c2e;color:#fff}
+.frame-wrap{flex:1;min-height:0;margin:0 10px 10px;border-radius:16px;overflow:hidden;background:rgba(255,255,255,.03)}
+#frame{width:100%;height:100%;border:0;display:block;background:transparent}
+
+/* Proxies */
+.proxies-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;padding:0 8px}
+.proxy-card{border-radius:var(--r-lg);padding:18px;text-align:left;transition:transform .3s var(--ease),background .2s}
+.proxy-card:hover{background:var(--glass-hover)}
+.proxy-card:active{transform:scale(.98)}
+.proxy-card.active{box-shadow:inset 0 0 0 2px var(--accent),inset 0 1px 0 var(--glass-highlight),var(--shadow)}
+.proxy-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.proxy-name{font-weight:600;font-size:16px}
+.check{width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;display:none;place-items:center}
+.check svg{width:12px;height:12px;stroke-width:3}
+.proxy-card.active .check{display:grid}
+.proxy-desc{font-size:13.5px;color:var(--text-2)}
+.note{font-size:13px;color:var(--text-2);text-shadow:var(--text-shadow);padding:18px 8px 0;max-width:640px}
+
+/* Chat */
+.chat{flex:1;min-height:0;display:flex;flex-direction:column;gap:12px}
+.chat-messages{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:4px 8px}
+.chat-empty{color:var(--text-2);text-align:center;margin:auto}
+.chat-message{align-self:flex-start;max-width:76%;padding:9px 14px;border-radius:19px 19px 19px 6px;animation:bub .3s var(--ease)}
+.chat-message.mine{align-self:flex-end;background:var(--accent);border-color:transparent;color:#fff;border-radius:19px 19px 6px 19px;box-shadow:0 6px 18px var(--accent-soft)}
+@keyframes bub{from{opacity:0;transform:translateY(6px) scale(.97)}}
+.chat-user{font-size:12px;font-weight:600;color:var(--accent)}
+.chat-message.mine .chat-user{color:rgba(255,255,255,.8)}
+.chat-text{word-break:break-word}
+.chat-time{font-size:11px;color:var(--text-3);margin-top:2px}
+.chat-message.mine .chat-time{color:rgba(255,255,255,.6)}
+.chat-form{display:flex;gap:8px;padding:7px;border-radius:999px}
+.chat-input{height:36px;padding:0 14px;border:0;border-radius:999px;background:var(--field);outline:none;flex:1;min-width:0}
+.chat-input::placeholder{color:var(--text-2)}
+#chatName{flex:0 0 140px}
+.chat-status{font-size:12px;color:var(--text-2);text-align:center}
+
+/* Settings (grouped list) */
+.settings{max-width:620px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:24px;padding:0 8px}
+.group-title{font-size:13px;color:var(--text-2);text-shadow:var(--text-shadow);padding:0 16px 7px}
+.group{border-radius:var(--r-lg);overflow:hidden}
+.row{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:46px;padding:6px 16px;border-top:1px solid var(--separator)}
+.row:first-child{border-top:0}
+.row label{font-size:15px}
+.row input,.row select{border:0;background:transparent;outline:none;text-align:right;color:var(--text-2);font-size:15px;max-width:55%}
+.row select{appearance:none;cursor:pointer;padding-right:16px;background-image:linear-gradient(45deg,transparent 50%,var(--text-3) 50%),linear-gradient(135deg,var(--text-3) 50%,transparent 50%);background-position:calc(100% - 6px) 50%,calc(100% - 1px) 50%;background-size:5px 5px;background-repeat:no-repeat}
+.row input:focus{color:var(--text)}
+.row-btn{display:flex;width:100%;min-height:46px;align-items:center;padding:0 16px;border:0;border-top:1px solid var(--separator);background:transparent;color:var(--accent);text-align:left;font-size:15px}
+.row-btn:first-child{border-top:0}
+.row-btn:hover{background:var(--glass-hover)}
+.row-btn.danger{color:var(--danger)}
+#view-settings .view-head,#view-chat .view-head{max-width:620px;width:100%;margin:0 auto;padding-left:16px}
+#view-chat .view-head{max-width:820px}
+.walls{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;padding:14px 16px}
+.wall-opt{aspect-ratio:16/10;border-radius:12px;border:2px solid transparent;background:#555 center/cover no-repeat;box-shadow:0 0 0 1px var(--glass-border);position:relative;padding:0}
+.wall-opt.on{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.wall-opt span{position:absolute;left:7px;bottom:5px;font-size:11px;font-weight:600;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.7)}
+.foot{font-size:12.5px;color:var(--text-3);padding:0 16px}
+
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:var(--field);border-radius:8px}
+::-webkit-scrollbar-track{background:transparent}
+
+/* Mobile */
+.scrim{display:none}
+@media (max-width:820px){
+  .app{padding:max(10px,env(safe-area-inset-top)) 10px max(10px,env(safe-area-inset-bottom))}
+  .sidebar{position:fixed;z-index:50;top:10px;bottom:10px;left:10px;transform:translateX(calc(-100% - 20px));transition:transform .45s var(--ease)}
+  [data-sidebar="right"] .sidebar{left:auto;right:10px;transform:translateX(calc(100% + 20px))}
+  .sidebar.open{transform:none!important}
+  .scrim{display:block;position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .3s}
+  .sidebar.open~.scrim{opacity:1;pointer-events:auto}
+  .menu-btn{display:grid}
+  .search,.search:focus{width:100%}
+  .search-wrap{flex:1;max-width:240px}
+  .kbd,.browser-bar .select-pill{display:none}
+  #chatName{flex-basis:90px}
+  .view-head h1{font-size:27px}
+  .tiles{grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:20px 6px}
+  .tile-icon{width:60px;height:60px;border-radius:16px}.tile-icon svg{width:38px;height:38px}
+}
+</style>
+</head>
+<body>
+<div class="wallpaper" id="wallpaper" aria-hidden="true"></div><div class="wall-tint" aria-hidden="true"></div>
+
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <button class="brand" data-action="view" data-view="home">
+      <span class="logo-mark" id="logoMark">B</span>
+      <span><span class="brand-name" id="brandName">Bebe Pro</span><br><span class="brand-sub">Play hub</span></span>
+    </button>
+    <nav class="nav">
+      <button class="nav-btn active" data-action="view" data-view="home"><svg class="i" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
+      <button class="nav-btn" data-action="view" data-view="games"><svg class="i" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="6"/><path d="M7 10v4M5 12h4M15.5 11h.01M18 13h.01"/></svg>Games</button>
+      <button class="nav-btn" data-action="view" data-view="browser"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg>Browser</button>
+      <button class="nav-btn" data-action="view" data-view="proxies"><svg class="i" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 8.2 8 9 4.6-.8 8-4.5 8-9V6z"/></svg>Proxies</button>
+      <button class="nav-btn" data-action="view" data-view="chat"><svg class="i" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"/></svg>Chat</button>
+      <button class="nav-btn" data-action="view" data-view="settings"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>Settings</button>
+    </nav>
+    <div class="status"><span class="dot" id="serverDot"></span><span id="serverText">Checking server</span></div>
+  </aside>
+  <div class="scrim" data-action="close-menu"></div>
+
+  <main class="main">
+    <header class="header">
+      <div class="header-left">
+        <button class="icon-btn menu-btn" data-action="menu" aria-label="Open menu"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        <span class="title" id="viewTitle">Home</span>
+      </div>
+      <div class="search-wrap">
+        <svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input class="search" id="globalSearch" type="text" placeholder="Search games" autocomplete="off">
+        <span class="kbd">⌘K</span>
+      </div>
+    </header>
+
+    <!-- HOME -->
+    <section class="view active" id="view-home">
+      <div class="hero">
+        <div class="clock" id="clock">--:--</div>
+        <div class="date-line" id="dateLine"></div>
+        <h2><span id="greeting">Hello</span>, welcome to <span id="heroName">Bebe Pro</span></h2>
+        <p>Pick up a game or open a new tab.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-action="view" data-view="games">Browse games</button>
+          <button class="btn btn-glass" data-action="new-tab">Open a tab</button>
+        </div>
+      </div>
+      <div class="wrap panel">
+        <h3>Play now</h3>
+        <div class="tiles" id="homeGames"></div>
+      </div>
+    </section>
+
+    <!-- GAMES -->
+    <section class="view" id="view-games">
+      <div class="view-head"><div><h1>Games</h1><p id="gameCount"></p></div></div>
+      <div class="toolbar">
+        <div class="segmented" id="catControl"></div>
+        <input class="field" id="gameSearch" type="text" placeholder="Filter by name" autocomplete="off">
+      </div>
+      <div class="games-grid"><div class="tiles" id="gamesGrid"></div></div>
+    </section>
+
+    <!-- BROWSER -->
+    <section class="view" id="view-browser">
+      <div class="browser">
+        <div class="tabs-bar">
+          <div class="tabs-list" id="tabsList"></div>
+          <button class="icon-btn" data-action="new-tab" aria-label="New tab"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+        </div>
+        <div class="browser-bar">
+          <button class="icon-btn" id="backBtn" data-action="back" aria-label="Back"><svg class="i" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+          <button class="icon-btn" id="fwdBtn" data-action="forward" aria-label="Forward"><svg class="i" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+          <button class="icon-btn" data-action="reload" aria-label="Reload"><svg class="i" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg></button>
+          <input class="address" id="address" type="text" placeholder="Search or enter website" autocomplete="off" spellcheck="false">
+          <select class="select-pill" id="proxyPick" aria-label="Proxy"></select>
+          <button class="icon-btn" data-action="start" aria-label="Start page"><svg class="i" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></button>
+        </div>
+        <div class="frame-wrap"><iframe id="frame" title="Browser" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-downloads"></iframe></div>
+      </div>
+    </section>
+
+    <!-- PROXIES -->
+    <section class="view" id="view-proxies">
+      <div class="view-head"><div><h1>Proxies</h1><p>Choose how the browser loads websites. Games always run locally.</p></div></div>
+      <div class="proxies-grid" id="proxiesGrid"></div>
+      <p class="note" id="proxyNote">Ultraviolet, Scramjet and Epoxy load pages through your hub’s server, so it needs to be running.</p>
+    </section>
+
+    <!-- CHAT -->
+    <section class="view" id="view-chat">
+      <div class="view-head"><div><h1>Chat</h1><p>Everyone on the hub sees these messages.</p></div></div>
+      <div class="wrap chat">
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-status" id="chatStatus"></div>
+        <form class="chat-form" id="chatForm">
+          <input class="chat-input" id="chatName" type="text" placeholder="Name" maxlength="30">
+          <input class="chat-input" id="chatMsg" type="text" placeholder="Message" maxlength="500" autocomplete="off">
+          <button class="btn btn-primary" type="submit">Send</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="view" id="view-settings">
+      <div class="view-head"><div><h1>Settings</h1></div></div>
+      <div class="settings">
+        <div>
+          <div class="group-title">General</div>
+          <div class="group glass">
+            <div class="row"><label for="s-siteName">Site name</label><input id="s-siteName" data-setting="siteName" type="text" maxlength="24"></div>
+            <div class="row"><label for="s-accent">Accent color</label>
+              <select id="s-accent" data-setting="accent"><option value="blue">Blue</option><option value="indigo">Indigo</option><option value="teal">Teal</option><option value="green">Green</option><option value="graphite">Graphite</option></select></div>
+          </div>
+        </div>
+        <div>
+          <div class="group-title">Browser</div>
+          <div class="group glass">
+            <div class="row"><label for="s-proxy">Proxy</label><select id="s-proxy" data-setting="proxy"></select></div>
+            <div class="row"><label for="s-engine">Search engine</label>
+              <select id="s-engine" data-setting="engine"><option value="brave">Brave</option><option value="duckduckgo">DuckDuckGo</option><option value="google">Google</option><option value="bing">Bing</option><option value="startpage">Startpage</option></select></div>
+            <div class="row"><label for="s-gameTabs">Open games in</label>
+              <select id="s-gameTabs" data-setting="gameTabs"><option value="new">New tab</option><option value="current">Current tab</option></select></div>
+          </div>
+        </div>
+        <div>
+          <div class="group-title">Wallpaper</div>
+          <div class="group glass">
+            <div class="walls" id="wallList"></div>
+            <button class="row-btn" data-action="pick-wall">Choose photo…</button>
+            <button class="row-btn danger" id="removeWallBtn" data-action="remove-wall" hidden>Remove photo</button>
+            <input type="file" id="wallFile" accept="image/*" hidden>
+          </div>
+        </div>
+        <div>
+          <div class="group-title">Appearance</div>
+          <div class="group glass">
+            <div class="row"><label for="s-theme">Theme</label>
+              <select id="s-theme" data-setting="theme"><option value="dark">Dark</option><option value="light">Light</option><option value="auto">Automatic</option></select></div>
+            <div class="row"><label for="s-sidebar">Sidebar</label>
+              <select id="s-sidebar" data-setting="sidebar"><option value="left">Left</option><option value="right">Right</option></select></div>
+            <div class="row"><label for="s-motion">Background motion</label>
+              <select id="s-motion" data-setting="motion"><option value="on">On</option><option value="off">Off</option></select></div>
+          </div>
+        </div>
+        <div>
+          <div class="group-title">Data</div>
+          <div class="group glass">
+            <button class="row-btn" data-action="close-tabs">Close all tabs</button>
+            <button class="row-btn danger" data-action="reset">Reset all settings</button>
+          </div>
+        </div>
+        <p class="foot">Bebe Pro 2.1. Settings are saved in this browser.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ================= BUILT-IN GAMES (plain HTML, run locally) ================= -->
+<template id="g-snake">
+<style>html,body{margin:0;height:100%;background:transparent;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}body{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;user-select:none}.hud{display:flex;justify-content:space-between;width:min(400px,92vw);font-size:14px;color:rgba(255,255,255,.72)}.hud b{color:#f2f2f7;font-weight:600}canvas{background:rgba(255,255,255,.06);border-radius:14px;max-width:92vw;height:auto}.hint{font-size:12.5px;color:rgba(255,255,255,.6);margin:0}.card{display:flex;flex-direction:column;align-items:center;gap:14px;padding:22px 24px;border-radius:26px;background:rgba(14,16,26,.34);border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 24px 60px rgba(0,0,0,.2);max-width:94vw}</style>
+<div class="card"><div class="hud"><b>Snake</b><span id="s">Score 0</span></div>
+<canvas id="c" width="400" height="400"></canvas>
+<p class="hint">Arrow keys or WASD to steer. Space to restart.</p></div>
+<script>
+var c=document.getElementById('c'),x=c.getContext('2d'),N=20,S=20,sn,dir,nd,f,sc,over;
+function reset(){sn=[{x:10,y:10},{x:9,y:10},{x:8,y:10}];dir={x:1,y:0};nd=dir;sc=0;over=false;food();upd();draw()}
+function food(){do{f={x:Math.floor(Math.random()*N),y:Math.floor(Math.random()*N)}}while(sn.some(function(p){return p.x==f.x&&p.y==f.y}))}
+function upd(){document.getElementById('s').textContent='Score '+sc}
+function step(){if(over)return;dir=nd;var h={x:sn[0].x+dir.x,y:sn[0].y+dir.y};
+if(h.x<0||h.y<0||h.x>=N||h.y>=N||sn.some(function(p){return p.x==h.x&&p.y==h.y})){over=true;draw();return}
+sn.unshift(h);if(h.x==f.x&&h.y==f.y){sc++;upd();food()}else sn.pop();draw()}
+function rr(px,py,w,h,r){x.beginPath();x.roundRect?x.roundRect(px,py,w,h,r):x.rect(px,py,w,h);x.fill()}
+function draw(){x.clearRect(0,0,400,400);x.fillStyle='rgba(255,255,255,.05)';x.fillRect(0,0,400,400);x.fillStyle='#ff453a';rr(f.x*S+4,f.y*S+4,S-8,S-8,4);
+sn.forEach(function(p,i){x.fillStyle=i?'#3b8cff':'#0a84ff';rr(p.x*S+1,p.y*S+1,S-2,S-2,5)});
+if(over){x.fillStyle='rgba(14,16,26,.55)';x.fillRect(0,0,400,400);x.fillStyle='#f2f2f7';x.textAlign='center';x.font='600 24px -apple-system,sans-serif';x.fillText('Game over',200,190);x.font='15px -apple-system,sans-serif';x.fillStyle='rgba(255,255,255,.72)';x.fillText('Press Space to play again',200,218)}}
+document.addEventListener('keydown',function(e){var m={ArrowUp:[0,-1],w:[0,-1],ArrowDown:[0,1],s:[0,1],ArrowLeft:[-1,0],a:[-1,0],ArrowRight:[1,0],d:[1,0]}[e.key];
+if(m){e.preventDefault();if(m[0]!=-dir.x||m[1]!=-dir.y)nd={x:m[0],y:m[1]}}if(e.key==' '){e.preventDefault();reset()}});
+reset();setInterval(step,110);
+</script>
+</template>
+
+<template id="g-blocks">
+<style>html,body{margin:0;height:100%;background:transparent;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}body{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;user-select:none}.hud{display:flex;justify-content:space-between;width:240px;font-size:14px;color:rgba(255,255,255,.72)}.hud b{color:#f2f2f7;font-weight:600}canvas{background:rgba(255,255,255,.06);border-radius:12px;max-height:72vh;width:auto}.hint{font-size:12.5px;color:rgba(255,255,255,.6);margin:0;text-align:center}.card{display:flex;flex-direction:column;align-items:center;gap:14px;padding:22px 24px;border-radius:26px;background:rgba(14,16,26,.34);border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 24px 60px rgba(0,0,0,.2);max-width:94vw}</style>
+<div class="card"><div class="hud"><b>Blocks</b><span id="s">Lines 0</span></div>
+<canvas id="c" width="240" height="480"></canvas>
+<p class="hint">Left/Right to move, Up to rotate, Down to drop faster.<br>Space for hard drop. R to restart.</p></div>
+<script>
+var c=document.getElementById('c'),x=c.getContext('2d'),W=10,H=20,Z=24;
+var P=[[[1,1,1,1]],[[1,1],[1,1]],[[0,1,0],[1,1,1]],[[1,0,0],[1,1,1]],[[0,0,1],[1,1,1]],[[1,1,0],[0,1,1]],[[0,1,1],[1,1,0]]];
+var C=['','#64d2ff','#ffd60a','#bf5af2','#0a84ff','#ff9f0a','#30d158','#ff453a'];
+var B,p,lines,over,timer;
+function reset(){B=[];for(var i=0;i<H;i++){B.push(new Array(W).fill(0))}lines=0;over=false;spawn();upd();draw()}
+function upd(){document.getElementById('s').textContent='Lines '+lines}
+function spawn(){var i=Math.floor(Math.random()*7);p={m:P[i],c:i+1,x:3,y:0};if(hit(p.m,p.x,p.y))over=true}
+function rot(m){return m[0].map(function(_,i){return m.map(function(r){return r[i]}).reverse()})}
+function hit(m,px,py){for(var r=0;r<m.length;r++)for(var k=0;k<m[r].length;k++){if(!m[r][k])continue;var X=px+k,Y=py+r;if(X<0||X>=W||Y>=H)return true;if(Y>=0&&B[Y][X])return true}return false}
+function merge(){p.m.forEach(function(r,ry){r.forEach(function(v,rx){if(v&&p.y+ry>=0)B[p.y+ry][p.x+rx]=p.c})});
+for(var y=H-1;y>=0;y--){if(B[y].every(function(v){return v})){B.splice(y,1);B.unshift(new Array(W).fill(0));lines++;y++}}upd();spawn()}
+function drop(){if(over)return;if(!hit(p.m,p.x,p.y+1))p.y++;else merge();draw()}
+function cell(X,Y,col){x.fillStyle=col;x.beginPath();x.roundRect?x.roundRect(X*Z+1,Y*Z+1,Z-2,Z-2,4):x.rect(X*Z+1,Y*Z+1,Z-2,Z-2);x.fill()}
+function draw(){x.clearRect(0,0,240,480);x.fillStyle='rgba(255,255,255,.05)';x.fillRect(0,0,240,480);
+for(var y=0;y<H;y++)for(var k=0;k<W;k++)if(B[y][k])cell(k,y,C[B[y][k]]);
+if(!over)p.m.forEach(function(r,ry){r.forEach(function(v,rx){if(v)cell(p.x+rx,p.y+ry,C[p.c])})});
+if(over){x.fillStyle='rgba(14,16,26,.55)';x.fillRect(0,0,240,480);x.fillStyle='#f2f2f7';x.textAlign='center';x.font='600 22px -apple-system,sans-serif';x.fillText('Game over',120,230);x.font='14px -apple-system,sans-serif';x.fillStyle='rgba(255,255,255,.72)';x.fillText('Press R to play again',120,256)}}
+document.addEventListener('keydown',function(e){var k=e.key;if(k=='r'||k=='R'){reset();return}if(over)return;
+if(k=='ArrowLeft'&&!hit(p.m,p.x-1,p.y))p.x--;else if(k=='ArrowRight'&&!hit(p.m,p.x+1,p.y))p.x++;else if(k=='ArrowDown')drop();
+else if(k=='ArrowUp'){var m=rot(p.m);if(!hit(m,p.x,p.y))p.m=m;else if(!hit(m,p.x-1,p.y)){p.m=m;p.x--}else if(!hit(m,p.x+1,p.y)){p.m=m;p.x++}}
+else if(k==' '){while(!hit(p.m,p.x,p.y+1))p.y++;merge()}else return;e.preventDefault();draw()});
+reset();setInterval(drop,520);
+</script>
+</template>
+
+<template id="g-2048">
+<style>html,body{margin:0;height:100%;background:transparent;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}body{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;user-select:none}.hud{display:flex;justify-content:space-between;width:356px;font-size:14px;color:rgba(255,255,255,.72)}.hud b{color:#f2f2f7;font-weight:600}.g{display:grid;grid-template-columns:repeat(4,80px);gap:8px;padding:8px;background:rgba(255,255,255,.06);border-radius:16px}.t{height:80px;border-radius:11px;display:grid;place-items:center;font-weight:700;font-size:26px;background:rgba(255,255,255,.1);color:#fff;transition:background .15s}.hint{font-size:12.5px;color:rgba(255,255,255,.6);margin:0}.card{display:flex;flex-direction:column;align-items:center;gap:14px;padding:22px 24px;border-radius:26px;background:rgba(14,16,26,.34);border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 24px 60px rgba(0,0,0,.2);max-width:94vw}</style>
+<div class="card"><div class="hud"><b>2048</b><span id="s">Score 0</span></div>
+<div class="g" id="b"></div>
+<p class="hint">Arrow keys or swipe to slide. R to restart.</p></div>
+<script>
+var g,sc,b=document.getElementById('b');
+var COL={2:'rgba(255,255,255,.28)',4:'rgba(255,255,255,.4)',8:'#0a84ff',16:'#2f6fe0',32:'#5e5ce6',64:'#7d4fe0',128:'#bf5af2',256:'#d0559e',512:'#ff7a59',1024:'#ff9f0a',2048:'#30d158'};
+function reset(){g=new Array(16).fill(0);sc=0;add();add();draw()}
+function add(){var e=[];g.forEach(function(v,i){if(!v)e.push(i)});if(e.length)g[e[Math.floor(Math.random()*e.length)]]=Math.random()<.9?2:4}
+function line(a){var r=a.filter(function(v){return v}),o=[];for(var i=0;i<r.length;i++){if(r[i]==r[i+1]){o.push(r[i]*2);sc+=r[i]*2;i++}else o.push(r[i])}while(o.length<4)o.push(0);return o}
+function move(d){var old=g.join();for(var k=0;k<4;k++){var idx=[];for(var j=0;j<4;j++)idx.push(d=='L'?k*4+j:d=='R'?k*4+3-j:d=='U'?j*4+k:(3-j)*4+k);
+var res=line(idx.map(function(i){return g[i]}));idx.forEach(function(i,n){g[i]=res[n]})}if(g.join()!=old){add();draw()}}
+function draw(){b.innerHTML=g.map(function(v){return '<div class="t" style="background:'+(v?(COL[v]||'#30d158'):'rgba(255,255,255,.1)')+';font-size:'+(v>=1024?'21px':'26px')+'">'+(v||'')+'</div>'}).join('');document.getElementById('s').textContent='Score '+sc}
+document.addEventListener('keydown',function(e){var m={ArrowLeft:'L',ArrowRight:'R',ArrowUp:'U',ArrowDown:'D'}[e.key];if(m){e.preventDefault();move(m)}if(e.key=='r'||e.key=='R')reset()});
+var sx,sy;document.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY});
+document.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.max(Math.abs(dx),Math.abs(dy))<30)return;move(Math.abs(dx)>Math.abs(dy)?(dx>0?'R':'L'):(dy>0?'D':'U'))});
+reset();
+</script>
+</template>
+
+<template id="g-pong">
+<style>html,body{margin:0;height:100%;background:transparent;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}body{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;user-select:none}.hud{display:flex;justify-content:space-between;width:min(600px,92vw);font-size:14px;color:rgba(255,255,255,.72)}.hud b{color:#f2f2f7;font-weight:600}canvas{background:rgba(255,255,255,.06);border-radius:14px;max-width:92vw;height:auto;cursor:none}.hint{font-size:12.5px;color:rgba(255,255,255,.6);margin:0}.card{display:flex;flex-direction:column;align-items:center;gap:14px;padding:22px 24px;border-radius:26px;background:rgba(14,16,26,.34);border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 24px 60px rgba(0,0,0,.2);max-width:94vw}</style>
+<div class="card"><div class="hud"><b>Pong</b><span>First to 7 wins</span></div>
+<canvas id="c" width="600" height="400"></canvas>
+<p class="hint">Move your mouse or use W/S. Space to restart.</p></div>
+<script>
+var c=document.getElementById('c'),x=c.getContext('2d'),py,ay,b,ps,as,keys={},win;
+function serve(d){b={x:300,y:200,vx:5*d,vy:Math.random()*4-2}}
+function reset(){py=160;ay=160;ps=0;as=0;win='';serve(1)}
+c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect();py=(e.clientY-r.top)*(400/r.height)-40});
+document.addEventListener('keydown',function(e){keys[e.key]=1;if(e.key==' '){e.preventDefault();reset()}});
+document.addEventListener('keyup',function(e){keys[e.key]=0});
+function loop(){if(!win){if(keys.w||keys.ArrowUp)py-=7;if(keys.s||keys.ArrowDown)py+=7;py=Math.max(0,Math.min(320,py));
+ay+=Math.max(-4.6,Math.min(4.6,b.y-40-ay));ay=Math.max(0,Math.min(320,ay));
+b.x+=b.vx;b.y+=b.vy;if(b.y<7||b.y>393)b.vy*=-1;
+if(b.vx<0&&b.x<38&&b.x>18&&b.y>py-6&&b.y<py+86){b.vx=Math.min(12,Math.abs(b.vx)*1.06);b.vy+=(b.y-py-40)*.1}
+if(b.vx>0&&b.x>562&&b.x<582&&b.y>ay-6&&b.y<ay+86){b.vx=-Math.min(12,Math.abs(b.vx)*1.06);b.vy+=(b.y-ay-40)*.1}
+if(b.x<-10){as++;serve(1)}if(b.x>610){ps++;serve(-1)}if(ps>=7)win='You win';if(as>=7)win='Computer wins'}
+x.clearRect(0,0,600,400);x.fillStyle='rgba(255,255,255,.05)';x.fillRect(0,0,600,400);x.fillStyle='rgba(255,255,255,.08)';for(var i=10;i<400;i+=24)x.fillRect(299,i,2,12);
+x.fillStyle='#f2f2f7';x.font='600 44px -apple-system,sans-serif';x.textAlign='center';x.globalAlpha=.25;x.fillText(ps,240,64);x.fillText(as,360,64);x.globalAlpha=1;
+x.fillStyle='#0a84ff';x.fillRect(20,py,10,80);x.fillStyle='rgba(255,255,255,.72)';x.fillRect(570,ay,10,80);
+x.fillStyle='#f2f2f7';x.beginPath();x.arc(b.x,b.y,7,0,7);x.fill();
+if(win){x.fillStyle='rgba(14,16,26,.55)';x.fillRect(0,0,600,400);x.fillStyle='#f2f2f7';x.font='600 26px -apple-system,sans-serif';x.fillText(win,300,195);x.font='15px -apple-system,sans-serif';x.fillStyle='rgba(255,255,255,.72)';x.fillText('Press Space to play again',300,224)}
+requestAnimationFrame(loop)}
+reset();loop();
+</script>
+</template>
+
+<template id="g-bricks">
+<style>html,body{margin:0;height:100%;background:transparent;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}body{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;user-select:none}.hud{display:flex;justify-content:space-between;width:min(480px,92vw);font-size:14px;color:rgba(255,255,255,.72)}.hud b{color:#f2f2f7;font-weight:600}canvas{background:rgba(255,255,255,.06);border-radius:14px;max-width:92vw;height:auto;cursor:none}.hint{font-size:12.5px;color:rgba(255,255,255,.6);margin:0}.card{display:flex;flex-direction:column;align-items:center;gap:14px;padding:22px 24px;border-radius:26px;background:rgba(14,16,26,.34);border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 24px 60px rgba(0,0,0,.2);max-width:94vw}</style>
+<div class="card"><div class="hud"><b>Bricks</b><span id="s"></span></div>
+<canvas id="c" width="480" height="360"></canvas>
+<p class="hint">Move your mouse or use the arrow keys. Space to restart.</p></div>
+<script>
+var c=document.getElementById('c'),x=c.getContext('2d'),px,b,dx,dy,br,lives,score,state,keys={};
+var RC=['#ff453a','#ff9f0a','#ffd60a','#30d158','#0a84ff'];
+function serve(){b={x:240,y:290};dx=3*(Math.random()<.5?-1:1);dy=-4}
+function reset(){br=[];for(var r=0;r<5;r++)for(var k=0;k<8;k++)br.push({x:11+k*58,y:40+r*22,c:RC[r],a:1});px=200;lives=3;score=0;state='play';serve()}
+function hud(){document.getElementById('s').textContent='Score '+score+'   Lives '+lives}
+c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect();px=(e.clientX-r.left)*(480/r.width)-40});
+document.addEventListener('keydown',function(e){keys[e.key]=1;if(e.key==' '){e.preventDefault();reset()}});
+document.addEventListener('keyup',function(e){keys[e.key]=0});
+function loop(){if(state=='play'){if(keys.ArrowLeft)px-=7;if(keys.ArrowRight)px+=7;px=Math.max(0,Math.min(400,px));
+b.x+=dx;b.y+=dy;if(b.x<6||b.x>474)dx*=-1;if(b.y<6)dy=Math.abs(dy);
+if(dy>0&&b.y+6>=332&&b.y+6<=344&&b.x>px-4&&b.x<px+84){dy=-Math.abs(dy);dx=(b.x-(px+40))/7}
+for(var i=0;i<br.length;i++){var q=br[i];if(q.a&&b.x>q.x&&b.x<q.x+52&&b.y>q.y-6&&b.y<q.y+22){q.a=0;dy=-dy;score+=10;break}}
+if(b.y>370){lives--;if(lives<=0)state='Game over';else serve()}
+if(br.every(function(q){return !q.a}))state='You cleared it'}
+x.clearRect(0,0,480,360);x.fillStyle='rgba(255,255,255,.05)';x.fillRect(0,0,480,360);
+br.forEach(function(q){if(q.a){x.fillStyle=q.c;x.beginPath();x.roundRect?x.roundRect(q.x,q.y,52,16,4):x.rect(q.x,q.y,52,16);x.fill()}});
+x.fillStyle='#f2f2f7';x.beginPath();x.roundRect?x.roundRect(px,334,80,9,5):x.rect(px,334,80,9);x.fill();
+x.beginPath();x.arc(b.x,b.y,6,0,7);x.fill();
+if(state!='play'){x.fillStyle='rgba(14,16,26,.55)';x.fillRect(0,0,480,360);x.fillStyle='#f2f2f7';x.textAlign='center';x.font='600 24px -apple-system,sans-serif';x.fillText(state,240,170);x.font='15px -apple-system,sans-serif';x.fillStyle='rgba(255,255,255,.72)';x.fillText('Press Space to play again',240,198)}
+hud();requestAnimationFrame(loop)}
+reset();loop();
+</script>
+</template>
+
+<template id="g-mines">
+<style>html,body{margin:0;height:100%;background:transparent;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}body{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;user-select:none}.hud{display:flex;justify-content:space-between;width:330px;font-size:14px;color:rgba(255,255,255,.72)}.hud b{color:#f2f2f7;font-weight:600}.ms{display:grid;grid-template-columns:repeat(9,34px);gap:3px;padding:8px;background:rgba(255,255,255,.06);border-radius:14px}.ms button{width:34px;height:34px;border:0;border-radius:7px;background:rgba(255,255,255,.18);color:#f2f2f7;font:600 15px -apple-system,sans-serif;cursor:pointer;padding:0;display:grid;place-items:center}.ms button:hover{background:rgba(255,255,255,.26)}.ms button.r{background:rgba(255,255,255,.05);cursor:default}.ms button.m{background:#ff453a}.fl{width:0;height:0;border-left:10px solid #ff9f0a;border-top:6px solid transparent;border-bottom:6px solid transparent}.mine{width:12px;height:12px;border-radius:50%;background:#0f1116}.hint{font-size:12.5px;color:rgba(255,255,255,.6);margin:0}.card{display:flex;flex-direction:column;align-items:center;gap:14px;padding:22px 24px;border-radius:26px;background:rgba(14,16,26,.34);border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 24px 60px rgba(0,0,0,.2);max-width:94vw}</style>
+<div class="card"><div class="hud"><b>Minesweeper</b><span id="s"></span></div>
+<div class="ms" id="b"></div>
+<p class="hint">Click to reveal. Right-click to flag. R to restart.</p></div>
+<script>
+var N=9,M=10,cells,first,over,left,el=document.getElementById('b');
+var COL=['','#64d2ff','#30d158','#ff9f0a','#bf5af2','#ff453a','#5ac8fa','#f2f2f7','rgba(255,255,255,.72)'];
+function st(t){document.getElementById('s').textContent=t}
+function reset(){cells=[];for(var i=0;i<N*N;i++)cells.push({m:0,r:0,f:0,n:0});first=true;over=false;left=N*N-M;st(M+' mines');draw()}
+function nb(i){var cx=i%N,cy=(i-cx)/N,o=[];for(var dy=-1;dy<2;dy++)for(var dx=-1;dx<2;dx++){if(!dx&&!dy)continue;var nx=cx+dx,ny=cy+dy;if(nx>=0&&ny>=0&&nx<N&&ny<N)o.push(ny*N+nx)}return o}
+function place(s){var safe=nb(s).concat([s]),p=0;while(p<M){var i=Math.floor(Math.random()*N*N);if(!cells[i].m&&safe.indexOf(i)<0){cells[i].m=1;p++}}
+cells.forEach(function(c,i){c.n=nb(i).filter(function(j){return cells[j].m}).length})}
+function open(i){var c=cells[i];if(c.r||c.f)return;c.r=1;if(c.m){over=true;cells.forEach(function(k){if(k.m)k.r=1});st('You hit a mine');return}
+left--;if(!c.n)nb(i).forEach(open);if(left==0&&!over){over=true;st('Board cleared')}}
+function draw(){el.innerHTML=cells.map(function(c,i){var cls=c.r?(c.m?'r m':'r'):'',t='';
+if(c.r)t=c.m?'<span class="mine"></span>':(c.n?'<span style="color:'+COL[c.n]+'">'+c.n+'</span>':'');else if(c.f)t='<span class="fl"></span>';
+return '<button data-i="'+i+'" class="'+cls+'">'+t+'</button>'}).join('')}
+el.addEventListener('click',function(e){var t=e.target.closest('button');if(!t||over)return;var i=+t.getAttribute('data-i');if(cells[i].f)return;if(first){place(i);first=false}open(i);draw()});
+el.addEventListener('contextmenu',function(e){e.preventDefault();var t=e.target.closest('button');if(!t||over)return;var c=cells[+t.getAttribute('data-i')];if(!c.r)c.f=!c.f;draw()});
+document.addEventListener('keydown',function(e){if(e.key=='r'||e.key=='R')reset()});
+reset();
+</script>
+</template>
+
+<template id="g-ttt">
+<style>html,body{margin:0;height:100%;background:transparent;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}body{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;user-select:none}.hud{display:flex;justify-content:space-between;width:304px;font-size:14px;color:rgba(255,255,255,.72)}.hud b{color:#f2f2f7;font-weight:600}.ttt{display:grid;grid-template-columns:repeat(3,96px);gap:8px}.ttt button{height:96px;border:0;border-radius:16px;background:rgba(255,255,255,.06);color:#f2f2f7;font:600 42px -apple-system,sans-serif;cursor:pointer}.ttt button:hover{background:rgba(255,255,255,.14)}.ttt .o{color:#0a84ff}.hint{font-size:12.5px;color:rgba(255,255,255,.6);margin:0}.card{display:flex;flex-direction:column;align-items:center;gap:14px;padding:22px 24px;border-radius:26px;background:rgba(14,16,26,.34);border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 24px 60px rgba(0,0,0,.2);max-width:94vw}</style>
+<div class="card"><div class="hud"><b>Tic-tac-toe</b><span id="s"></span></div>
+<div class="ttt" id="b"></div>
+<p class="hint">You play X against the computer. R to restart.</p></div>
+<script>
+var L=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]],B,over;
+function w(b){for(var i=0;i<8;i++){var l=L[i];if(b[l[0]]&&b[l[0]]==b[l[1]]&&b[l[0]]==b[l[2]])return b[l[0]]}return b.indexOf('')<0?'T':''}
+function mm(b,ai){var r=w(b);if(r=='O')return 1;if(r=='X')return -1;if(r=='T')return 0;var best=ai?-2:2;
+for(var i=0;i<9;i++)if(!b[i]){b[i]=ai?'O':'X';var v=mm(b,!ai);b[i]='';best=ai?Math.max(best,v):Math.min(best,v)}return best}
+function ai(){var bi=-1,bv=-2;for(var i=0;i<9;i++)if(!B[i]){B[i]='O';var v=mm(B,false);B[i]='';if(v>bv){bv=v;bi=i}}if(bi>=0)B[bi]='O'}
+function st(t){document.getElementById('s').textContent=t}
+function end(){var r=w(B);if(r){over=true;st(r=='X'?'You win':r=='O'?'Computer wins':'Draw')}return r}
+function draw(){document.getElementById('b').innerHTML=B.map(function(v,i){return '<button data-i="'+i+'" class="'+(v=='O'?'o':'')+'">'+v+'</button>'}).join('')}
+function reset(){B=['','','','','','','','',''];over=false;st('Your move');draw()}
+document.getElementById('b').addEventListener('click',function(e){var i=e.target.getAttribute('data-i');if(i==null||over||B[i])return;B[i]='X';if(!end()){ai();end()}draw()});
+document.addEventListener('keydown',function(e){if(e.key=='r'||e.key=='R')reset()});
+reset();
+</script>
+</template>
+
+<!-- ================= APP LOGIC ================= -->
+<script>
+(() => {
+  'use strict';
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  const root = document.documentElement;
+
+  const GAMES = [
+    { id: 'snake',  name: 'Snake',       cat: 'Arcade',   mono: 'Sn', c1: '#30d158', c2: '#0f8a3a' },
+    { id: 'blocks', name: 'Blocks',      cat: 'Puzzle',   mono: 'Bl', c1: '#bf5af2', c2: '#6b2fa8' },
+    { id: '2048',   name: '2048',        cat: 'Puzzle',   mono: '2048', c1: '#ff9f0a', c2: '#c4620a' },
+    { id: 'pong',   name: 'Pong',        cat: 'Arcade',   mono: 'Po', c1: '#64d2ff', c2: '#1a7fb8' },
+    { id: 'bricks', name: 'Bricks',      cat: 'Arcade',   mono: 'Br', c1: '#ff453a', c2: '#a8231b' },
+    { id: 'mines',  name: 'Minesweeper', cat: 'Puzzle',   mono: 'Ms', c1: '#8e8e93', c2: '#48484a' },
+    { id: 'ttt',    name: 'Tic-tac-toe', cat: 'Strategy', mono: 'XO', c1: '#0a84ff', c2: '#0a4fb0' }
+  ];
+  const ICONS = {
+    snake: '<svg viewBox="0 0 64 64"><path d="M12 46H30V30H46V18" fill="none" stroke="#30d158" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="46" cy="18" r="5" fill="#30d158"/><circle cx="47.5" cy="16.5" r="1.3" fill="#0b3d1c"/><circle cx="48" cy="45" r="6" fill="#ff453a"/><path d="M48 39c0-3 2-5 5-5" stroke="#30d158" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>',
+    blocks: '<svg viewBox="0 0 64 64"><g fill="#bf5af2"><rect x="18" y="8" width="9" height="9" rx="2"/><rect x="28" y="8" width="9" height="9" rx="2"/><rect x="38" y="8" width="9" height="9" rx="2"/><rect x="28" y="18" width="9" height="9" rx="2"/></g><g fill="#0a84ff"><rect x="8" y="46" width="9" height="9" rx="2"/><rect x="18" y="46" width="9" height="9" rx="2"/><rect x="28" y="46" width="9" height="9" rx="2"/><rect x="8" y="36" width="9" height="9" rx="2"/></g><g fill="#ffd60a"><rect x="38" y="36" width="9" height="9" rx="2"/><rect x="48" y="36" width="9" height="9" rx="2"/><rect x="38" y="46" width="9" height="9" rx="2"/><rect x="48" y="46" width="9" height="9" rx="2"/></g></svg>',
+    '2048': '<svg viewBox="0 0 64 64" font-family="-apple-system,Helvetica,Arial,sans-serif" font-weight="700" text-anchor="middle"><rect x="8" y="8" width="22" height="22" rx="5" fill="#fff" fill-opacity=".55"/><rect x="34" y="8" width="22" height="22" rx="5" fill="#ffd60a"/><rect x="8" y="34" width="22" height="22" rx="5" fill="#ff9f0a"/><rect x="34" y="34" width="22" height="22" rx="5" fill="#ff453a"/><text x="19" y="24" font-size="12" fill="#333">2</text><text x="45" y="24" font-size="12" fill="#333">4</text><text x="19" y="50" font-size="12" fill="#fff">8</text><text x="45" y="50" font-size="11" fill="#fff">16</text></svg>',
+    pong: '<svg viewBox="0 0 64 64"><path d="M32 8v48" stroke="#fff" stroke-opacity=".5" stroke-width="2" stroke-dasharray="4 4"/><rect x="9" y="14" width="6" height="20" rx="3" fill="#64d2ff"/><rect x="49" y="30" width="6" height="20" rx="3" fill="#fff"/><circle cx="38" cy="24" r="4.5" fill="#fff"/><path d="M20 30l13-5" stroke="#fff" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/></svg>',
+    bricks: '<svg viewBox="0 0 64 64"><g><rect x="7" y="9" width="15" height="7" rx="2" fill="#ff453a"/><rect x="24.5" y="9" width="15" height="7" rx="2" fill="#ff453a"/><rect x="42" y="9" width="15" height="7" rx="2" fill="#ff453a"/><rect x="7" y="18" width="15" height="7" rx="2" fill="#ff9f0a"/><rect x="42" y="18" width="15" height="7" rx="2" fill="#ff9f0a"/><rect x="7" y="27" width="15" height="7" rx="2" fill="#30d158"/><rect x="24.5" y="27" width="15" height="7" rx="2" fill="#30d158"/></g><circle cx="34" cy="42" r="4" fill="#fff"/><rect x="20" y="51" width="24" height="5" rx="2.5" fill="#fff"/></svg>',
+    mines: '<svg viewBox="0 0 64 64"><g stroke="#2c2c2e" stroke-width="3.5" stroke-linecap="round"><path d="M27 18v32M11 34h32M16 23l22 22M38 23 16 45"/></g><circle cx="27" cy="34" r="11" fill="#2c2c2e"/><circle cx="23" cy="30" r="3" fill="#fff" fill-opacity=".7"/><path d="M46 10v24" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><path d="M46 11l12 5-12 5z" fill="#ff453a"/></svg>',
+    ttt: '<svg viewBox="0 0 64 64" stroke-linecap="round"><path d="M25 10v44M39 10v44M10 25h44M10 39h44" stroke="#fff" stroke-opacity=".6" stroke-width="2.5"/><path d="M13 13l8 8M21 13l-8 8M43 43l8 8M51 43l-8 8" stroke="#fff" stroke-width="3.5"/><circle cx="32" cy="32" r="4.5" fill="none" stroke="#0a84ff" stroke-width="3.5"/><circle cx="47" cy="17" r="4.5" fill="none" stroke="#0a84ff" stroke-width="3.5"/></svg>'
+  };
+
+  // ---------- Wallpapers (drawn scenes, no outside images) ----------
+  const rng = seed => () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const ridge = (r, base, amp, step) => { let d = `M0 1000L0 ${base}`; for (let x = 0; x <= 1600; x += step) d += `L${x} ${(base - r() * amp).toFixed(0)}`; return d + 'L1600 1000Z'; };
+  const sky = (id, a, b, c) => `<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset=".6" stop-color="${b}"/><stop offset="1" stop-color="${c}"/></linearGradient></defs><rect width="1600" height="1000" fill="url(#${id})"/>`;
+  const svgWrap = body => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">${body}</svg>`;
+  const WALLPAPERS = {
+    lake: { name: 'Lake', svg() { const r = rng(7); return svgWrap(sky('s', '#2d2f72', '#c46b8e', '#f6b26b') +
+      '<circle cx="1060" cy="560" r="95" fill="#ffe3ad"/>' +
+      [['#7a5296', 540, 170, 90], ['#5a3f85', 610, 150, 70], ['#3b2d68', 680, 120, 55], ['#251d4a', 750, 90, 45]].map(([c, b, a, s]) => `<path d="${ridge(r, b, a, s)}" fill="${c}"/>`).join('') +
+      '<rect y="790" width="1600" height="210" fill="#1d1840"/>' + [810, 835, 860, 890, 925].map((y, i) => `<rect x="${1000 - 70 + i * 6}" y="${y}" width="${140 - i * 12}" height="5" rx="2.5" fill="#ffe3ad" opacity="${0.7 - i * 0.12}"/>`).join('')); } },
+    aurora: { name: 'Aurora', svg() { const r = rng(3); let stars = ''; for (let i = 0; i < 220; i++) stars += `<circle cx="${(r() * 1600).toFixed(0)}" cy="${(r() * 650).toFixed(0)}" r="${(r() * 1.6 + 0.4).toFixed(1)}" fill="#fff" opacity="${(r() * 0.7 + 0.3).toFixed(2)}"/>`;
+      return svgWrap(sky('s', '#050b22', '#0f2350', '#1a3a6a') + stars +
+      '<path d="M-50 380C300 180 600 420 900 260S1400 200 1700 320" fill="none" stroke="#3dffb0" stroke-width="90" opacity=".28"/><path d="M-50 330C350 220 650 380 950 230S1450 160 1700 270" fill="none" stroke="#7affd4" stroke-width="30" opacity=".35"/><path d="M200 300C500 160 800 330 1200 200" fill="none" stroke="#b07aff" stroke-width="50" opacity=".18"/>' +
+      `<path d="${ridge(r, 760, 140, 60)}" fill="#0a1830"/><path d="${ridge(r, 840, 80, 40)}" fill="#050d1c"/>`); } },
+    dunes: { name: 'Dunes', svg() { return svgWrap(sky('s', '#f7d28a', '#f2a46a', '#e7845a') +
+      '<circle cx="480" cy="420" r="120" fill="#fff1c9"/>' +
+      '<path d="M0 640Q400 520 800 640T1600 600V1000H0Z" fill="#e0925a"/><path d="M0 740Q350 620 760 720T1600 680V1000H0Z" fill="#c9733f"/><path d="M0 860Q500 740 1000 840T1600 800V1000H0Z" fill="#a8582f"/><path d="M700 720Q900 690 1100 760" stroke="#f2b07a" stroke-width="4" fill="none" opacity=".6"/>'); } },
+    forest: { name: 'Forest', svg() { const r = rng(11); const trees = (y, h, col, n) => { let s = ''; for (let i = 0; i < n; i++) { const x = (i / n) * 1700 - 50 + r() * 40, hh = h * (0.7 + r() * 0.5); s += `<path d="M${x} ${y - hh}L${x - hh * 0.28} ${y}L${x + hh * 0.28} ${y}Z" fill="${col}"/>`; } return s + `<rect y="${y}" width="1600" height="${1000 - y}" fill="${col}"/>`; };
+      return svgWrap(sky('s', '#cfe8e0', '#8cc3b6', '#4f8f86') + '<circle cx="1180" cy="300" r="70" fill="#f4fbf7" opacity=".9"/>' +
+      trees(640, 220, '#3e7a70', 36) + '<rect y="560" width="1600" height="120" fill="#cfe8e0" opacity=".35"/>' + trees(780, 300, '#285a52', 26) + trees(930, 380, '#163b36', 18)); } },
+    coast: { name: 'Coast', svg() { const cloud = (x, y, s) => `<g fill="#fff" opacity=".9"><ellipse cx="${x}" cy="${y}" rx="${90 * s}" ry="${30 * s}"/><ellipse cx="${x + 50 * s}" cy="${y - 22 * s}" rx="${60 * s}" ry="${38 * s}"/><ellipse cx="${x - 40 * s}" cy="${y - 12 * s}" rx="${50 * s}" ry="${28 * s}"/></g>`;
+      return svgWrap(sky('s', '#5fa8e8', '#9fd0f5', '#d9f0fd') + cloud(300, 220, 1.2) + cloud(1100, 160, 0.9) + cloud(1400, 300, 0.7) +
+      '<rect y="600" width="1600" height="400" fill="#2a7bb3"/><rect y="600" width="1600" height="30" fill="#5aa6d6" opacity=".6"/>' +
+      [660, 720, 800, 900].map((y, i) => `<rect x="${200 + i * 140}" y="${y}" width="${260 - i * 30}" height="4" rx="2" fill="#fff" opacity=".35"/>`).join('') +
+      '<path d="M1600 1000V420Q1450 400 1360 470T1180 560Q1120 640 1060 1000Z" fill="#5c6b4f"/><path d="M1600 1000V520Q1500 520 1420 580T1260 700L1200 1000Z" fill="#46553c"/><path d="M1060 1000Q1130 820 1200 780L1300 1000Z" fill="#e8d9b0" opacity=".85"/>'); } }
+  };
+  const svgUrl = s => `url("data:image/svg+xml;charset=utf-8,${encodeURIComponent(s)}")`;
+  const WALL_CACHE = {};
+  const wallCss = id => WALL_CACHE[id] || (WALL_CACHE[id] = svgUrl(WALLPAPERS[id].svg()));
+  const WALL_KEY = 'bebe_pro_photo';
+  const getPhoto = () => { try { return localStorage.getItem(WALL_KEY); } catch { return null; } };
+
+  function applyWallpaper() {
+    const photo = getPhoto();
+    const useCustom = settings.wallpaper === 'custom' && photo;
+    $('#wallpaper').style.backgroundImage = useCustom ? `url("${photo}")` : wallCss(WALLPAPERS[settings.wallpaper] ? settings.wallpaper : 'lake');
+    $('#wallList').innerHTML = Object.entries(WALLPAPERS).map(([id, w]) =>
+      `<button class="wall-opt ${settings.wallpaper === id ? 'on' : ''}" data-action="wall" data-wall="${id}" style='background-image:${wallCss(id)}' aria-label="${w.name}"><span>${w.name}</span></button>`).join('') +
+      (photo ? `<button class="wall-opt ${useCustom ? 'on' : ''}" data-action="wall" data-wall="custom" style='background-image:url("${photo}")' aria-label="Your photo"><span>Your photo</span></button>` : '');
+    $('#removeWallBtn').hidden = !photo;
+  }
+
+  async function loadPhoto(file) {
+    if (!file || !file.type.startsWith('image/')) return;
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    try { await img.decode(); } catch { alert('That file couldn’t be opened as an image.'); return; }
+    const scale = Math.min(1, 2200 / Math.max(img.naturalWidth, img.naturalHeight));
+    const cv = document.createElement('canvas');
+    cv.width = Math.round(img.naturalWidth * scale); cv.height = Math.round(img.naturalHeight * scale);
+    cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+    URL.revokeObjectURL(img.src);
+    let data = cv.toDataURL('image/jpeg', 0.84);
+    try { localStorage.setItem(WALL_KEY, data); }
+    catch { try { data = cv.toDataURL('image/jpeg', 0.6); localStorage.setItem(WALL_KEY, data); } catch { alert('That photo is too large to save. Try a smaller one.'); return; } }
+    settings.wallpaper = 'custom'; save(); applyWallpaper();
+  }
+
+  const PROXIES = [
+    { id: 'ultraviolet', name: 'Ultraviolet', desc: 'Full mode. Rewrites links, images and the page’s own requests so most sites keep working.' },
+    { id: 'scramjet',    name: 'Scramjet',    desc: 'No-scripts mode. Removes JavaScript, so pages load fast and stay readable. Good for articles.' },
+    { id: 'epoxy',       name: 'Epoxy',       desc: 'Basic mode. Rewrites links and images only. Try it when a site misbehaves in full mode.' },
+    { id: 'direct',      name: 'Direct',      desc: 'No proxy. Loads sites from your device, and many sites refuse to open this way.' }
+  ];
+  const ENGINES = {
+    brave: 'https://search.brave.com/search?q=',
+    duckduckgo: 'https://duckduckgo.com/?q=',
+    google: 'https://www.google.com/search?q=',
+    bing: 'https://www.bing.com/search?q=',
+    startpage: 'https://www.startpage.com/do/search?q='
+  };
+  const ACCENTS = { blue: '#0a84ff', indigo: '#5e5ce6', teal: '#30b0c7', green: '#30d158', graphite: '#8e8e93' };
+  const TITLES = { home: 'Home', games: 'Games', browser: 'Browser', proxies: 'Proxies', chat: 'Chat', settings: 'Settings' };
+  const DEFAULTS = { wallpaper: 'lake', siteName: 'Bebe Pro', accent: 'blue', theme: 'dark', sidebar: 'left', motion: 'on', proxy: 'ultraviolet', engine: 'brave', gameTabs: 'new' };
+  const KEY = 'bebe_pro_settings';
+
+  // ---------- Settings ----------
+  let settings = (() => { try { return { ...DEFAULTS, ...JSON.parse(localStorage.getItem(KEY) || '{}') }; } catch { return { ...DEFAULTS }; } })();
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(settings)); } catch {} };
+  const mq = window.matchMedia('(prefers-color-scheme: light)');
+  const rgba = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
+  const esc = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+
+  function applySettings() {
+    const mode = settings.theme === 'auto' ? (mq.matches ? 'light' : 'dark') : settings.theme;
+    root.dataset.theme = mode;
+    root.style.colorScheme = mode;
+    root.dataset.sidebar = settings.sidebar;
+    root.dataset.motion = settings.motion;
+    const acc = ACCENTS[settings.accent] || ACCENTS.blue;
+    root.style.setProperty('--accent', acc);
+    root.style.setProperty('--accent-soft', rgba(acc, 0.22));
+    const name = settings.siteName.trim() || DEFAULTS.siteName;
+    document.title = name;
+    $('#brandName').textContent = name;
+    $('#heroName').textContent = name;
+    $('#logoMark').textContent = name.charAt(0).toUpperCase();
+    $$('[data-setting]').forEach(el => { if (document.activeElement !== el) el.value = settings[el.dataset.setting]; });
+    $('#proxyPick').value = settings.proxy;
+    renderProxies();
+    applyWallpaper();
+  }
+  mq.addEventListener?.('change', () => settings.theme === 'auto' && applySettings());
+
+  function fillProxySelects() {
+    const opts = PROXIES.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+    $('#proxyPick').innerHTML = opts;
+    $('#s-proxy').innerHTML = opts;
+  }
+
+  // ---------- Views ----------
+  let currentView = 'home';
+  function switchView(view) {
+    if (!TITLES[view]) return;
+    currentView = view;
+    $$('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + view));
+    $$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+    $('#viewTitle').textContent = TITLES[view];
+    $('#sidebar').classList.remove('open');
+    if (view === 'browser' && !tabs.length) newTab();
+    if (view === 'chat') { loadChat(); startChatPolling(); } else stopChatPolling();
+  }
+
+  // ---------- Games ----------
+  let activeCat = 'All';
+  const tileHTML = g => `
+    <button class="tile" data-action="play" data-game="${g.id}">
+      <span class="tile-icon">${ICONS[g.id] || ''}</span>
+      <span class="tile-name">${g.name}</span>
+      <span class="tile-meta">${g.cat}</span>
+    </button>`;
+
+  function renderGames() {
+    const q = $('#gameSearch').value.trim().toLowerCase();
+    const list = GAMES.filter(g => (activeCat === 'All' || g.cat === activeCat) && g.name.toLowerCase().includes(q));
+    $('#gamesGrid').innerHTML = list.length ? list.map(tileHTML).join('') : '<p class="empty">No games match that search.</p>';
+    $('#gameCount').textContent = `${list.length} of ${GAMES.length} games, all running locally`;
+    const cats = ['All', ...new Set(GAMES.map(g => g.cat))];
+    $('#catControl').innerHTML = cats.map(c => `<button data-action="cat" data-cat="${c}" class="${c === activeCat ? 'on' : ''}">${c}</button>`).join('');
+  }
+
+  function playGame(id) {
+    const g = GAMES.find(x => x.id === id);
+    if (!g) return;
+    const entry = { kind: 'game', id };
+    if (settings.gameTabs === 'new' || !tabs.length) newTab(entry);
+    else navigate(entry);
+    switchView('browser');
+  }
+
+  // ---------- Browser ----------
+  const tabs = [];
+  let activeTab = null, tabSeq = 0, loadToken = 0;
+  const frame = $('#frame');
+  const curTab = () => tabs.find(t => t.id === activeTab);
+
+  function newTab(entry) {
+    const t = { id: ++tabSeq, back: [], fwd: [], cur: entry || { kind: 'start' } };
+    tabs.push(t);
+    activeTab = t.id;
+    show();
+  }
+  function closeTab(id) {
+    const i = tabs.findIndex(t => t.id === id);
+    if (i < 0) return;
+    tabs.splice(i, 1);
+    if (!tabs.length) { newTab(); return; }
+    if (activeTab === id) activeTab = tabs[Math.max(0, i - 1)].id;
+    show();
+  }
+  function navigate(entry) {
+    const t = curTab();
+    if (!t) return newTab(entry);
+    t.back.push(t.cur);
+    t.fwd = [];
+    t.cur = entry;
+    t.title = '';
+    show();
+  }
+  function goBack() { const t = curTab(); if (t && t.back.length) { t.fwd.push(t.cur); t.cur = t.back.pop(); show(); } }
+  function goForward() { const t = curTab(); if (t && t.fwd.length) { t.back.push(t.cur); t.cur = t.fwd.pop(); show(); } }
+
+  function titleOf(e) {
+    if (e.kind === 'start') return 'New tab';
+    if (e.kind === 'game') return (GAMES.find(g => g.id === e.id) || {}).name || 'Game';
+    try { return new URL(e.url).hostname.replace(/^www\./, ''); } catch { return e.url; }
+  }
+
+  function renderTabs() {
+    $('#tabsList').innerHTML = tabs.map(t => `
+      <div class="tab ${t.id === activeTab ? 'active' : ''}" data-action="tab" data-tab="${t.id}" role="button" tabindex="0">
+        <span>${esc((t.cur.kind === 'url' && t.title) || titleOf(t.cur))}</span>
+        <span class="tab-close" data-action="close-tab" data-tab="${t.id}" aria-label="Close tab"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></span>
+      </div>`).join('');
+    const t = curTab();
+    $('#backBtn').disabled = !t || !t.back.length;
+    $('#fwdBtn').disabled = !t || !t.fwd.length;
+  }
+
+  function setDoc(html) { const m = root.dataset.theme; frame.srcdoc = `<!doctype html><meta charset="utf-8"><meta name="color-scheme" content="${m}"><style>:root{color-scheme:${m}}html,body{background:transparent}</style>` + html; }
+  function pageShell(inner) {
+    const dark = root.dataset.theme === 'dark';
+    return `<style>
+      html,body{margin:0;height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+      background:transparent;color:${dark ? '#fff' : '#1c1c1e'};text-shadow:0 1px 12px ${dark ? 'rgba(0,0,0,.3)' : 'rgba(255,255,255,.5)'}}
+      body{display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;box-sizing:border-box}
+      h1{font-size:22px;font-weight:600;letter-spacing:-.02em;margin:0 0 6px}p{margin:0;color:${dark ? 'rgba(255,255,255,.75)' : 'rgba(30,30,40,.7)'};font-size:14.5px;max-width:420px;line-height:1.5}
+    </style><div>${inner}</div>`;
+  }
+
+  async function show() {
+    renderTabs();
+    const t = curTab();
+    if (!t) return;
+    const e = t.cur;
+    const token = ++loadToken;
+    const addr = $('#address');
+
+    if (e.kind === 'start') {
+      addr.value = '';
+      const p = PROXIES.find(x => x.id === settings.proxy);
+      setDoc(pageShell(`<h1>New tab</h1><p>Search or enter a website in the bar above. Pages load through ${esc(p ? p.name : 'your proxy')}.</p>`));
+      return;
+    }
+    if (e.kind === 'game') {
+      const tpl = document.getElementById('g-' + e.id);
+      addr.value = titleOf(e);
+      setDoc(tpl ? tpl.innerHTML : pageShell('<h1>Game not found</h1>'));
+      return;
+    }
+    // URL
+    addr.value = e.url;
+    if (settings.proxy === 'direct') {
+      frame.removeAttribute('srcdoc');
+      frame.src = e.url;
+      return;
+    }
+    if (server.state !== 'ok') {
+      await checkServer();
+      if (token !== loadToken) return;
+    }
+    if (server.state !== 'ok') {
+      setDoc(pageShell(server.state === 'old'
+        ? '<h1>Your server needs updating</h1><p>The hub is running an older server.mjs that has no proxy. Replace it with the new server.mjs, then run <b>npm install</b> and <b>npm start</b> again.</p>'
+        : '<h1>The proxy server isn’t running</h1><p>Start the hub with <b>npm start</b> in the bebe-pro folder, then open it from that address (for example localhost:8080), not by double-clicking the file.</p>'));
+      return;
+    }
+    frame.removeAttribute('srcdoc');
+    frame.src = proxied(e.url);
+  }
+
+  const proxied = url => `/p/${settings.proxy}/${encodeURIComponent(url)}`;
+
+  // Keep the address bar, tab title and history in step with clicks inside proxied pages.
+  frame.addEventListener('load', () => {
+    let loc;
+    try { loc = frame.contentWindow.location; } catch { return; }
+    const m = loc.pathname.match(/^\/p\/\w+\/(.+)$/);
+    if (!m) return;
+    let url;
+    try { url = new URL(decodeURIComponent(m[1])); if (loc.search) url.search = loc.search; url = url.href; } catch { return; }
+    const t = curTab();
+    if (!t) return;
+    if (t.cur.kind !== 'url' || t.cur.url !== url) { t.back.push(t.cur); t.fwd = []; t.cur = { kind: 'url', url }; }
+    try { t.title = frame.contentDocument.title; } catch {}
+    $('#address').value = url;
+    renderTabs();
+  });
+
+  function toUrl(input) {
+    const v = input.trim();
+    if (!v) return null;
+    if (/^https?:\/\//i.test(v)) return v;
+    if (/^(localhost|[\w-]+(\.[\w-]+)+)(:\d+)?([\/?#].*)?$/i.test(v)) return (/^(localhost|\d+\.\d+\.\d+\.\d+)/.test(v) ? 'http://' : 'https://') + v;
+    return (ENGINES[settings.engine] || ENGINES.brave) + encodeURIComponent(v);
+  }
+
+  // ---------- Proxies ----------
+  function renderProxies() {
+    $('#proxiesGrid').innerHTML = PROXIES.map(p => `
+      <button class="proxy-card ${p.id === settings.proxy ? 'active' : ''}" data-action="proxy" data-proxy="${p.id}">
+        <div class="proxy-top"><span class="proxy-name">${p.name}</span><span class="check"><svg class="i" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg></span></div>
+        <div class="proxy-desc">${p.desc}</div>
+      </button>`).join('');
+  }
+  function setProxy(id) {
+    if (!PROXIES.some(p => p.id === id)) return;
+    settings.proxy = id; save(); applySettings();
+    const t = curTab();
+    if (t && t.cur.kind === 'url') show();
+  }
+
+  // ---------- Chat ----------
+  let chatMsgs = [], chatLocal = false, chatTimer = null;
+  const myName = () => ($('#chatName').value.trim() || 'Guest');
+  async function loadChat() {
+    try {
+      const r = await fetch('/api/chat', { cache: 'no-store' });
+      if (!r.ok) throw 0;
+      const d = await r.json();
+      chatMsgs = d.messages || [];
+      chatLocal = false;
+    } catch { chatLocal = true; }
+    renderChat();
+  }
+  function renderChat() {
+    const box = $('#chatMessages');
+    const atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 60;
+    const me = myName();
+    box.innerHTML = chatMsgs.length
+      ? chatMsgs.map(m => `
+        <div class="chat-message ${m.user === me ? 'mine' : ''}">
+          <div class="chat-user">${esc(m.user)}</div>
+          <div class="chat-text">${esc(m.message)}</div>
+          <div class="chat-time">${new Date(m.timestamp).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</div>
+        </div>`).join('')
+      : '<p class="chat-empty">No messages yet. Say hello to everyone on the hub.</p>';
+    if (atBottom) box.scrollTop = box.scrollHeight;
+    $('#chatStatus').textContent = chatLocal ? 'Server offline. Messages stay on this device until it’s back.' : '';
+  }
+  async function sendChat(e) {
+    e.preventDefault();
+    const message = $('#chatMsg').value.trim();
+    if (!message) return;
+    const user = myName();
+    try { localStorage.setItem('bebe_pro_chatname', $('#chatName').value.trim()); } catch {}
+    $('#chatMsg').value = '';
+    if (!chatLocal) {
+      try {
+        const r = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ user, message }) });
+        if (!r.ok) throw 0;
+        chatMsgs.push(await r.json());
+        renderChat();
+        $('#chatMessages').scrollTop = 1e9;
+        return;
+      } catch { chatLocal = true; }
+    }
+    chatMsgs.push({ user, message, timestamp: new Date().toISOString() });
+    renderChat();
+    $('#chatMessages').scrollTop = 1e9;
+  }
+  function startChatPolling() { stopChatPolling(); chatTimer = setInterval(() => !chatLocal && loadChat(), 4000); }
+  function stopChatPolling() { if (chatTimer) clearInterval(chatTimer); chatTimer = null; }
+
+  // ---------- Server status ----------
+  const server = { state: 'unknown' };
+  async function checkServer() {
+    let state = 'down';
+    try {
+      const r = await fetch('/api/health', { cache: 'no-store' });
+      if (r.ok && (await r.json()).ok) state = 'ok';
+      else if ((await fetch('/api/chat', { cache: 'no-store' })).ok) state = 'old';
+    } catch {}
+    server.state = state;
+    $('#serverDot').classList.toggle('on', state === 'ok');
+    $('#serverText').textContent = state === 'ok' ? 'Proxy server online' : state === 'old' ? 'Server needs updating' : 'Server offline';
+    $('#proxyNote').textContent = state === 'ok'
+      ? 'Ultraviolet, Scramjet and Epoxy load pages through your hub’s server. Sign-ins and video sites usually won’t work through it.'
+      : state === 'old'
+        ? 'Your hub is running an older server.mjs without the proxy. Replace it with the new one and restart the server.'
+        : 'The hub’s server isn’t reachable, so only Direct and the built-in games will work right now.';
+  }
+
+  // ---------- Clock ----------
+  function tick() {
+    const now = new Date();
+    $('#clock').textContent = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }).replace(/\s?[AP]M/i, '');
+    $('#dateLine').textContent = now.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' });
+    const h = now.getHours();
+    $('#greeting').textContent = h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening';
+  }
+
+  // ---------- Events (one delegated handler, so every button works) ----------
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-action]');
+    if (!el) return;
+    const a = el.dataset.action;
+    if (a === 'close-tab') { e.stopPropagation(); closeTab(+el.dataset.tab); return; }
+    switch (a) {
+      case 'view': switchView(el.dataset.view); break;
+      case 'play': playGame(el.dataset.game); break;
+      case 'cat': activeCat = el.dataset.cat; renderGames(); break;
+      case 'new-tab': newTab(); switchView('browser'); setTimeout(() => $('#address').focus(), 50); break;
+      case 'tab': activeTab = +el.dataset.tab; show(); break;
+      case 'back': goBack(); break;
+      case 'forward': goForward(); break;
+      case 'reload': { const t = curTab(); if (t && t.cur.kind === 'url' && settings.proxy !== 'direct') { try { frame.contentWindow.location.reload(); break; } catch {} } show(); break; }
+      case 'start': navigate({ kind: 'start' }); break;
+      case 'proxy': setProxy(el.dataset.proxy); break;
+      case 'wall': settings.wallpaper = el.dataset.wall; save(); applyWallpaper(); break;
+      case 'pick-wall': $('#wallFile').click(); break;
+      case 'remove-wall': try { localStorage.removeItem(WALL_KEY); } catch {} if (settings.wallpaper === 'custom') settings.wallpaper = 'lake'; save(); applyWallpaper(); break;
+      case 'menu': $('#sidebar').classList.toggle('open'); break;
+      case 'close-menu': $('#sidebar').classList.remove('open'); break;
+      case 'close-tabs': tabs.length = 0; newTab(); break;
+      case 'reset':
+        if (confirm('Reset all settings to their defaults?')) { settings = { ...DEFAULTS }; save(); applySettings(); }
+        break;
+    }
+  });
+
+  $('#address').addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    const url = toUrl(e.target.value);
+    if (url) { navigate({ kind: 'url', url }); e.target.blur(); }
+  });
+  $('#address').addEventListener('focus', e => e.target.select());
+  $('#proxyPick').addEventListener('change', e => setProxy(e.target.value));
+  $('#gameSearch').addEventListener('input', renderGames);
+  $('#globalSearch').addEventListener('input', e => {
+    $('#gameSearch').value = e.target.value;
+    if (currentView !== 'games') switchView('games');
+    renderGames();
+  });
+  $('#chatForm').addEventListener('submit', sendChat);
+  $('#wallFile').addEventListener('change', e => { loadPhoto(e.target.files[0]); e.target.value = ''; });
+  $$('[data-setting]').forEach(el => {
+    const handler = () => { settings[el.dataset.setting] = el.value; save(); applySettings(); const t = curTab(); if (el.dataset.setting === 'theme' && t && t.cur.kind !== 'url') show(); };
+    el.addEventListener(el.tagName === 'INPUT' ? 'input' : 'change', handler);
+  });
+  frame.addEventListener('load', () => { try { frame.contentWindow.focus(); } catch {} });
+  document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); $('#globalSearch').focus(); }
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 't' && currentView === 'browser') { e.preventDefault(); newTab(); }
+  });
+
+  // ---------- Start ----------
+  fillProxySelects();
+  applySettings();
+  try { $('#chatName').value = localStorage.getItem('bebe_pro_chatname') || ''; } catch {}
+  $('#homeGames').innerHTML = GAMES.map(tileHTML).join('');
+  renderGames();
+  tick(); setInterval(tick, 10000);
+  checkServer(); setInterval(checkServer, 30000);
+})();
+</script>
+</body>
+</html>

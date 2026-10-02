@@ -1,0 +1,9 @@
+{
+  "name": "bebe-pro",
+  "version": "2.2.0",
+  "type": "module",
+  "main": "server.mjs",
+  "engines": { "node": ">=18" },
+  "scripts": { "start": "node server.mjs" },
+  "dependencies": { "express": "^4.21.0" }
+}
